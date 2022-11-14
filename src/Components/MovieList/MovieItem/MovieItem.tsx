@@ -1,6 +1,6 @@
 import React from "react";
 import {ImgMaterial} from "../../Common";
-import {Box, Container, Grid, Theme, Typography, useTheme} from "@mui/material";
+import {Box, Grid, Theme, Typography, useTheme} from "@mui/material";
 
 interface IMovieItemProps {
   image: string;
