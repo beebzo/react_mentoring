@@ -3,11 +3,11 @@ import {Header, Footer} from "./Components";
 import {MovieListView} from "./Views/MovieListView/MovieListView";
 
 const App: React.FC = () => (
-  <div>
+  <React.Fragment>
     <Header />
     <MovieListView />
     <Footer />
-  </div>
+  </React.Fragment>
 
 )
 
