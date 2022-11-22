@@ -23,7 +23,7 @@ const getStyles = (theme: Theme) => ({
     padding: '0 12px'
   },
   lightColor: {
-    color: theme.palette.primary.light
+    color: theme.palette.secondary.main
   },
   halfOpacity: {
     opacity: 0.5

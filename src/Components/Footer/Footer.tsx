@@ -8,7 +8,7 @@ const getStyles = (theme: Theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     height: '70px',
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.primary.dark
   }
 });
 

@@ -1,11 +1,12 @@
 import {Box, Button, Theme, useTheme} from "@mui/material";
 import {Logo} from "../../Common";
-import React from "react";
+import React, {useState} from "react";
+import {AddMovieModal} from "../../../Views/AddMovieModal";
 
 const getStyles = (theme: Theme) => ({
   container: {
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   addMovieButton: {
     background: 'rgba(96, 96, 96, 0.68)',
@@ -17,10 +18,13 @@ const ADD_MOVIE_TEXT = '+ Add movie';
 
 const HeaderLine: React.FC = () => {
   const sx = getStyles(useTheme());
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <Box sx={sx.container}>
       <Logo />
-      <Button sx={sx.addMovieButton}>{ADD_MOVIE_TEXT}</Button>
+      <Button sx={sx.addMovieButton} onClick={() => setIsModalOpen(true)}>{ADD_MOVIE_TEXT}</Button>
+      {isModalOpen && <AddMovieModal setIsOpen={setIsModalOpen} />}
     </Box>
   )
 }

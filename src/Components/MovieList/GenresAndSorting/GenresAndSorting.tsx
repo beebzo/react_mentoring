@@ -1,4 +1,4 @@
-import React, {SetStateAction, useState} from "react";
+import React, {SetStateAction, useEffect, useState} from "react";
 import {
   Box, Container,
   FormControl,
@@ -23,7 +23,7 @@ const getStyles = (theme: Theme) => ({
     alignItems: 'center'
   },
   lightColor: {
-    color: theme.palette.primary.light
+    color: theme.palette.secondary.main
   },
   tabsContainer: {
     overflow: 'visible'
@@ -52,6 +52,7 @@ export const GenresAndSorting: React.FC = () => {
   const [tabs, setTabs] = useState(0);
   const [sortOption, setSortOption] = useState(SORT_VALUES[0]);
   const sx = getStyles(useTheme());
+
   const onTabChange = (event: React.SyntheticEvent, value: SetStateAction<number>) => setTabs(value);
   const renderGenreTab = (genre: string) => (
     <Tab label={genre} key={genre} sx={{...sx.tabContainer, ...sx.lightColor}} />
@@ -63,7 +64,7 @@ export const GenresAndSorting: React.FC = () => {
       <Tabs
         value={tabs}
         onChange={onTabChange}
-        textColor='primary.light'
+        textColor='secondary'
         sx={sx.tabsContainer}
       >
         {GENRES.map(renderGenreTab)}

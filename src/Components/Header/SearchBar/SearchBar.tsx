@@ -6,30 +6,33 @@ const getStyles = (theme: Theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: '0 40px 210px',
+    margin: '12px 0'
   },
   searchBarInput: {
     display: 'flex',
     flex: 3,
     backgroundColor: theme.palette.background.default,
-    m: 2,
     padding: '0 12px',
-    color: theme.palette.primary.light
+    color: theme.palette.secondary.main,
+    marginRight: '12px'
   },
   searchBarButton: {
     display: 'flex',
     flex: 1,
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.light
+    color: theme.palette.secondary.main
   }
 })
+
+const PLACEHOLDER = 'What do you want to watch?'
+const SEARCH_BUTTON_LABEL = 'Search'
 
 const SearchBar: React.FC = () => {
   const sx = getStyles(useTheme());
   return (
     <Box sx={sx.searchBarContainer}>
-      <Input sx={sx.searchBarInput} placeholder="What do you want to watch?" ></Input>
-      <Button sx={sx.searchBarButton}>Search</Button>
+      <Input sx={sx.searchBarInput} placeholder={PLACEHOLDER} ></Input>
+      <Button sx={sx.searchBarButton}>{SEARCH_BUTTON_LABEL}</Button>
     </Box>
   )
 }

@@ -1,9 +1,6 @@
-import React from "react";
-import movies from '../../consts/mock/top250.json'
+import React, {useEffect, useState} from "react";
 import {Box, Container, Grid, Theme, Typography, useTheme} from "@mui/material";
 import {MovieItem} from "./MovieItem";
-
-const MOCK_MOVIE_LIST = movies.slice(0, 30);
 
 const getStyles = (theme: Theme) => ({
   movieCountContainer: {
@@ -11,7 +8,7 @@ const getStyles = (theme: Theme) => ({
     alignItems: 'center',
   },
   white: {
-    color: theme.palette.primary.light
+    color: theme.palette.secondary.main
   },
   count: {
     fontWeight: theme.typography.fontWeightBold,
@@ -24,16 +21,30 @@ const getStyles = (theme: Theme) => ({
 })
 
 export const MovieList: React.FC = () => {
-  const foundMoviesText = ' movies found';
+  const  [movies, setMovies] = useState([]);
   const sx = getStyles(useTheme())
+
+
+  useEffect(() => {
+    fetchMovies()
+  }, [])
+
+  const fetchMovies = async () => {
+    const movies = Array.from(await import('../../consts/mock/top250.json'));
+    // TODO create a pagination
+    setMovies(movies.slice(0, 31));
+  }
+
+  const foundMoviesText = ' movies found';
+
   return (
     <Container>
       <Box sx={sx.movieCountContainer}>
-        <Typography sx={{...sx.count, ...sx.white}}>{MOCK_MOVIE_LIST.length}</Typography>
+        <Typography sx={{...sx.count, ...sx.white}}>{movies.length}</Typography>
         <Typography sx={sx.white}>{foundMoviesText}</Typography>
       </Box>
       <Grid container sx={sx.movieListContainer} columnSpacing={{xs:12}}>
-        {MOCK_MOVIE_LIST.map(movie => (
+        {movies.map(movie => (
             <MovieItem
               image={movie.image}
               datePublished={movie.datePublished}

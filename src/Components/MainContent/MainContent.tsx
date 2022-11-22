@@ -1,4 +1,4 @@
-import {Box, Container, Theme, useTheme} from "@mui/material";
+import {Container, Theme, useTheme} from "@mui/material";
 import React from "react";
 
 interface IMainContentProps {
