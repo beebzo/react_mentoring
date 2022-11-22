@@ -1,7 +1,18 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import App from "./App";
+import { createRoot } from 'react-dom/client';
+import {CssBaseline, ThemeProvider} from "@mui/material";
+import mainTheme from "./consts/themes/Themes";
+import {ErrorBoundary} from "./Components";
+const container = document.getElementById('root');
+const root = createRoot(container);
 
-const el = document.getElementById("app");
-
-ReactDOM.render(<App />, el);
+root.render(
+  <React.StrictMode>
+    <ErrorBoundary>
+      <ThemeProvider theme={mainTheme}>
+        <CssBaseline />
+        <App tab="home" />
+      </ThemeProvider>
+    </ErrorBoundary>
+  </React.StrictMode>);
