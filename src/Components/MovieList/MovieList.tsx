@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Box, Container, Grid, Theme, Typography, useTheme} from "@mui/material";
+import {Box, Container, Theme, Typography, Unstable_Grid2, useTheme} from "@mui/material";
 import {MovieItem} from "./MovieItem";
 
 const getStyles = (theme: Theme) => ({
@@ -16,7 +16,8 @@ const getStyles = (theme: Theme) => ({
   },
   movieListContainer: {
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
   }
 })
 
@@ -43,7 +44,7 @@ export const MovieList: React.FC = () => {
         <Typography sx={{...sx.count, ...sx.white}}>{movies.length}</Typography>
         <Typography sx={sx.white}>{foundMoviesText}</Typography>
       </Box>
-      <Grid container sx={sx.movieListContainer} columnSpacing={{xs:12}}>
+      <Unstable_Grid2 container sx={sx.movieListContainer}>
         {movies.map(movie => (
             <MovieItem
               image={movie.image}
@@ -54,7 +55,7 @@ export const MovieList: React.FC = () => {
             />
           )
         )}
-      </Grid>
+      </Unstable_Grid2>
     </Container>
   )
 }

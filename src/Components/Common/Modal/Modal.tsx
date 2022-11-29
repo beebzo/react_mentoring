@@ -3,6 +3,7 @@ import React, {MouseEventHandler} from "react";
 import ReactDOM from "react-dom";
 import {Close} from "@mui/icons-material";
 import {Title} from "../Title";
+import {toggler} from "../../../consts/types/toggler";
 
 type TSize = 's' | 'l'
 
@@ -23,7 +24,7 @@ const getStyles = (theme: Theme, size: TSize) => ({
     padding: '12px',
     flexDirection: 'column',
     backgroundColor: theme.palette.background.paper,
-    width: '80vw',
+    width: size === 's' ? '60vw': '80vw',
     height: size === 's' ? '25vh' : '80vh',
     margin: 'auto',
   },
@@ -59,12 +60,12 @@ const getStyles = (theme: Theme, size: TSize) => ({
   }
 });
 
-export type TModalButton = {onClick?: MouseEventHandler<HTMLButtonElement>, label: string, style?: 'main' | 'secondary'}
+export type TModalButton = {onClick?: MouseEventHandler<HTMLButtonElement>, label: string, style?: 'main' | 'secondary'};
 
 interface IModalProps {
   children: React.ReactNode;
   size?: TSize;
-  setOpen: (isOpen: boolean) => void;
+  setOpen: toggler;
   title?: string;
   buttons: TModalButton[]
 }

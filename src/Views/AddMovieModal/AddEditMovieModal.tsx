@@ -1,9 +1,11 @@
 import React from "react";
 import {LabeledForm, Modal} from "../../Components/Common";
-import {Box, Button, FormGroup, Theme, useTheme} from "@mui/material";
+import {FormGroup, Theme, useTheme} from "@mui/material";
+import {toggler} from "../../consts/types/toggler";
 
-interface IAddMovieModal {
-  setIsOpen: (isOpen: boolean) => void
+interface IAddEditMovieModal {
+  setIsOpen: toggler;
+  isEdit?: boolean;
 }
 
 const getStyles = (theme: Theme) => ({
@@ -13,11 +15,11 @@ const getStyles = (theme: Theme) => ({
   },
 })
 
-export const AddMovieModal: React.FC<IAddMovieModal> = ({setIsOpen}) => {
+export const AddEditMovieModal: React.FC<IAddEditMovieModal> = ({setIsOpen, isEdit}) => {
   const sx = getStyles(useTheme());
   const buttons = [{label: 'Reset'}, {label: 'Submit'}];
   return (
-    <Modal setOpen={setIsOpen} title='Add movie' buttons={buttons}>
+    <Modal setOpen={setIsOpen} title={`${isEdit ? 'Edit' : 'Add'} movie`} buttons={buttons}>
       <FormGroup sx={sx.formLine} row>
         <LabeledForm formLabel='Name' isNotLast />
         <LabeledForm formLabel='Release Date' type='date' />

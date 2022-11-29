@@ -1,7 +1,7 @@
 import {Box, Button, Theme, useTheme} from "@mui/material";
 import {Logo} from "../../Common";
 import React, {useState} from "react";
-import {AddMovieModal} from "../../../Views/AddMovieModal";
+import {AddEditMovieModal} from "../../../Views/AddMovieModal";
 
 const getStyles = (theme: Theme) => ({
   container: {
@@ -24,7 +24,7 @@ const HeaderLine: React.FC = () => {
     <Box sx={sx.container}>
       <Logo />
       <Button sx={sx.addMovieButton} onClick={() => setIsModalOpen(true)}>{ADD_MOVIE_TEXT}</Button>
-      {isModalOpen && <AddMovieModal setIsOpen={setIsModalOpen} />}
+      {isModalOpen && <AddEditMovieModal setIsOpen={setIsModalOpen} />}
     </Box>
   )
 }

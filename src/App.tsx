@@ -8,7 +8,6 @@ const App: React.FC = () => (
     <MovieListView />
     <Footer />
   </React.Fragment>
-
 )
 
 export default App

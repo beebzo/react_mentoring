@@ -1,1 +1,1 @@
-export * from './AddMovieModal'
+export * from './AddEditMovieModal'
