@@ -1,7 +1,9 @@
 import {Box, Button, Theme, useTheme} from "@mui/material";
-import {Logo} from "../../Common";
+import {Logo} from "../../../Components/Common";
 import React, {useState} from "react";
-import {AddEditMovieModal} from "../../../Views/AddMovieModal";
+import {AddEditMovieModal} from "../../AddMovieModal";
+import {Search} from "@mui/icons-material";
+import {toggler} from "../../../consts/types/toggler";
 
 const getStyles = (theme: Theme) => ({
   container: {
@@ -16,14 +18,23 @@ const getStyles = (theme: Theme) => ({
 
 const ADD_MOVIE_TEXT = '+ Add movie';
 
-const HeaderLine: React.FC = () => {
+interface IHeaderLineProps {
+  isSearch?: boolean;
+  disableSearch: () => void;
+}
+
+const HeaderLine: React.FC<IHeaderLineProps> = ({isSearch, disableSearch}) => {
   const sx = getStyles(useTheme());
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <Box sx={sx.container}>
       <Logo />
-      <Button sx={sx.addMovieButton} onClick={() => setIsModalOpen(true)}>{ADD_MOVIE_TEXT}</Button>
+      {isSearch ? (
+        <Search color='primary' onClick={disableSearch}/>
+      ) : (
+        <Button sx={sx.addMovieButton} onClick={() => setIsModalOpen(true)}>{ADD_MOVIE_TEXT}</Button>
+      )}
       {isModalOpen && <AddEditMovieModal setIsOpen={setIsModalOpen} />}
     </Box>
   )

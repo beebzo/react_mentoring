@@ -7,7 +7,7 @@ type ImgMaterialProps = {
   alt: string;
   src: string;
   objectFit?: string;
-  sx: SxProps<Theme>
+  sx?: SxProps<Theme>
 }
 
 export const ImgMaterial = (props: BoxProps & ImgMaterialProps) => <Box component='img' {...props} />;
