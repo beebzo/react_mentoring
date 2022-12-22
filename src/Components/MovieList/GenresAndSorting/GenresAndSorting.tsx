@@ -1,20 +1,30 @@
-import React, {SetStateAction, useEffect, useState} from "react";
+import React from "react";
 import {
   Box, Container,
   FormControl,
   MenuItem,
   Select,
-  SelectChangeEvent,
+  SelectChangeEvent, SvgIconProps,
   Tab,
   Tabs,
   Theme,
   Typography,
   useTheme
 } from "@mui/material";
+import {useDispatch, useSelector} from "react-redux";
+import {
+  FIELDS_FOR_SORTING,
+  GENRES,
+  ISortBy,
+  selectFieldForSorting,
+  selectFilter,
+  selectSortingDirection,
+  setFieldForSorting, setGenre,
+  setSortingDirection
+} from "../../../store/moviesSlice";
+import {ArrowDownward, ArrowUpward} from "@mui/icons-material";
 
-const GENRES = ['ALL', 'DOCUMENTARY', 'COMEDY', 'HORROR', 'CRIME'];
-const SORT_LABEL = 'SORT BY'
-const SORT_VALUES = ['RELEASE DATE']
+const SORT_LABEL = 'SORT BY';
 
 const getStyles = (theme: Theme) => ({
   container: {
@@ -39,32 +49,47 @@ const getStyles = (theme: Theme) => ({
     "& .MuiSvgIcon-root": {color: theme.palette.primary.main}
   },
   noDropdownOutline: {
-    boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 }
+    boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': {border: 0}
   },
   sortingContainer: {
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center'
   }
-})
+});
 
 export const GenresAndSorting: React.FC = () => {
-  const [tabs, setTabs] = useState(0);
-  const [sortOption, setSortOption] = useState(SORT_VALUES[0]);
+  const sortBy = useSelector(selectFieldForSorting);
+  const sortOrder = useSelector(selectSortingDirection);
+  const filter = useSelector(selectFilter);
+  const dispatch = useDispatch();
   const sx = getStyles(useTheme());
 
-  const onTabChange = (event: React.SyntheticEvent, value: SetStateAction<number>) => setTabs(value);
+  const tabToRender = GENRES.findIndex(el => el === filter)
+  const onTabChange = (event: React.SyntheticEvent, value: number) => dispatch(setGenre(GENRES[value]));
   const renderGenreTab = (genre: string) => (
-    <Tab label={genre} key={genre} sx={{...sx.tabContainer, ...sx.lightColor}} />
-  )
-  const renderSortOption = (sortOption: string) => <MenuItem value={sortOption} key={sortOption}>{sortOption}</MenuItem>
-  const onSortOptionChange = (event: SelectChangeEvent) => setSortOption(event.target.value)
+    <Tab label={genre} key={genre} sx={{...sx.tabContainer, ...sx.lightColor}}/>
+  );
+  const renderSortOption = (sortBy: keyof ISortBy) => (
+    <MenuItem
+      value={sortBy}
+      key={sortBy}
+      sx={sx.lightColor}
+    >
+      {sortBy.toUpperCase().replace('_', ' ')}
+    </MenuItem>
+  );
+  const sortingDirectionIconProps: SvgIconProps = {
+    color: "primary",
+    onClick: () => dispatch(setSortingDirection())
+  };
+  const onSortOptionChange = (event: SelectChangeEvent) => dispatch(setFieldForSorting(event.target.value as keyof ISortBy));
   return (
     <Container sx={sx.container}>
       <Tabs
-        value={tabs}
+        value={tabToRender}
         onChange={onTabChange}
-        textColor='secondary'
+        textColor="secondary"
         sx={sx.tabsContainer}
       >
         {GENRES.map(renderGenreTab)}
@@ -73,14 +98,19 @@ export const GenresAndSorting: React.FC = () => {
         <Typography sx={{...sx.sortingLabel, ...sx.lightColor}}>{SORT_LABEL}</Typography>
         <FormControl>
           <Select
-            value={sortOption}
+            value={sortBy}
             onChange={onSortOptionChange}
             sx={{...sx.lightColor, ...sx.dropdownIcon, ...sx.noDropdownOutline}}
           >
-            {SORT_VALUES.map(renderSortOption)}
+            {FIELDS_FOR_SORTING.map(renderSortOption)}
           </Select>
         </FormControl>
+        {sortOrder === 'desc' ? (
+          <ArrowDownward {...sortingDirectionIconProps} />
+        ) : (
+          <ArrowUpward {...sortingDirectionIconProps} />
+        )}
       </Box>
     </Container>
-  )
-}
+  );
+};

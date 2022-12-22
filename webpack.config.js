@@ -36,7 +36,7 @@ const config = {
   },
   devServer: {
     host:'localhost',
-    port: 4000,
+    port: 3050,
     historyApiFallback: true,
     open: true,
     hot:true
