@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Box, Container, Theme, Typography, Unstable_Grid2, useTheme} from "@mui/material";
 import {MovieItem} from "./MovieItem";
+import {IMovie} from "../../consts/types/movie";
 
 const getStyles = (theme: Theme) => ({
   movieCountContainer: {
@@ -22,7 +23,7 @@ const getStyles = (theme: Theme) => ({
 })
 
 export const MovieList: React.FC = () => {
-  const  [movies, setMovies] = useState([]);
+  const  [movies, setMovies] = useState<IMovie[]>([]);
   const sx = getStyles(useTheme())
 
 
@@ -47,10 +48,7 @@ export const MovieList: React.FC = () => {
       <Unstable_Grid2 container sx={sx.movieListContainer}>
         {movies.map(movie => (
             <MovieItem
-              image={movie.image}
-              datePublished={movie.datePublished}
-              name={movie.name}
-              genre={movie.genre}
+              movie={movie}
               key={movie.name}
             />
           )

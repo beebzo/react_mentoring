@@ -1,5 +1,5 @@
 import React from "react";
-import {Modal} from "../Common";
+import {Modal} from "../../Components/Common";
 import {Typography} from "@mui/material";
 import {toggler} from "../../consts/types/toggler";
 

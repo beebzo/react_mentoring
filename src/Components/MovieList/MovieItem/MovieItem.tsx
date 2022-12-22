@@ -1,18 +1,16 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {ImgMaterial} from "../../Common";
 import {Box, Theme, Typography, useTheme} from "@mui/material";
 import {Popover} from "../../Common/Popover";
 import {EditingButton} from "../../Common/EditingButton";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {DeleteMovieModal} from "../../DeleteMovieModal";
+import {DeleteMovieModal} from "../../../Views/DeleteMovieModal";
 import {AddEditMovieModal} from "../../../Views/AddMovieModal";
-
+import {SelectedMovieContext} from "../../../Contexts/selectedMovieContextProvider";
+import {IMovie} from "../../../consts/types/movie";
 interface IMovieItemProps {
-  image: string;
-  datePublished: string;
-  name: string;
-  genre: string[];
-}
+  movie: IMovie;
+};
 
 const getStyles = (theme: Theme) => ({
   container: {
@@ -44,13 +42,15 @@ const getStyles = (theme: Theme) => ({
   }
 })
 
-export const MovieItem: React.FC<IMovieItemProps> = ({image, name, genre, datePublished}) => {
+export const MovieItem: React.FC<IMovieItemProps> = ({movie}) => {
   const sx = getStyles(useTheme());
   const [anchorEl, setAnchorEl] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const {setSelectedMovie} = useContext(SelectedMovieContext);
 
+  const {image, name, genre, datePublished} = movie;
   const year = datePublished.slice(0, 4);
   const popoverButtons = [
     {label: 'Edit', onClick: () => setIsEditModalOpen(true)},
@@ -63,6 +63,7 @@ export const MovieItem: React.FC<IMovieItemProps> = ({image, name, genre, datePu
         xs={4}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        onClick={() => setSelectedMovie(movie)}
       >
         {(isHovered || anchorEl) && (
           <EditingButton onClick={event => setAnchorEl(event.currentTarget)}/>
@@ -74,7 +75,7 @@ export const MovieItem: React.FC<IMovieItemProps> = ({image, name, genre, datePu
             <Typography sx={sx.lightColor}>{year}</Typography>
           </Box>
         </Box>
-        <Typography sx={{...sx.lightColor, ...sx.halfOpacity}}>{genre.join()}</Typography>
+        <Typography sx={{...sx.lightColor, ...sx.halfOpacity}}>{genre.join(', ')}</Typography>
       </Grid2>
       <Popover anchorEl={anchorEl} buttons={popoverButtons} setAnchorEl={setAnchorEl} />
       {isEditModalOpen && <AddEditMovieModal setIsOpen={setIsEditModalOpen} isEdit />}
