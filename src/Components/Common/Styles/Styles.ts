@@ -4,6 +4,9 @@ export const getCommonStyles = (theme: Theme) => ({
   input: {
     color: theme.palette.secondary.main,
     backgroundColor: theme.palette.primary.dark,
-    "& .MuiSvgIcon-root": {color: theme.palette.primary.main}
+    "& .MuiSvgIcon-root": {color: theme.palette.primary.main},
+  },
+  buttonPadding: {
+    padding: '12px 48px',
   }
 });
