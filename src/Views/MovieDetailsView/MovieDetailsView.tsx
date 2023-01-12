@@ -1,8 +1,8 @@
-import {IMovie} from "../../consts/types/movie";
 import React from "react";
 import {Box, Theme, Typography, Unstable_Grid2, useTheme} from "@mui/material";
 import {ImgMaterial, Title} from "../../Components/Common";
 import {Rating} from "../../Components/Common/Rating";
+import {IMovie} from "../../consts/types/movie";
 
 const getStyles = (theme: Theme) => ({
   container: {
@@ -38,12 +38,13 @@ const getStyles = (theme: Theme) => ({
 })
 
 interface IMovieDetailsViewProps {
-  movie: IMovie
+  movie: IMovie;
 }
 
 export const MovieDetailsView: React.FC<IMovieDetailsViewProps> = ({movie}) => {
   const sx = getStyles(useTheme());
-  const {image, name, aggregateRating, genre, datePublished, duration, description} = movie;
+  const {poster_path, title, vote_average, genres, release_date, runtime, overview} = movie;
+
   const rItem = (children: React.ReactNode) => <Unstable_Grid2>{children}</Unstable_Grid2>
   const renderHighlight = (text: string) => (
     <Typography
@@ -65,22 +66,22 @@ export const MovieDetailsView: React.FC<IMovieDetailsViewProps> = ({movie}) => {
 
   return (
     <Box sx={sx.container}>
-      <ImgMaterial alt='Movie Logo' src={image} sx={sx.img} />
+      <ImgMaterial alt='Movie Logo' src={poster_path} sx={sx.img} />
       <Unstable_Grid2 container spacing={5} sx={sx.detailsContainer}>
         <Unstable_Grid2 container spacing={3} sx={sx.horizontal}>
-          {rItem(<Title text={name} />)}
-          {rItem(<Rating rating={aggregateRating.ratingValue} />)}
+          {rItem(<Title text={title} />)}
+          {rItem(<Rating rating={vote_average} />)}
         </Unstable_Grid2>
         {rItem(
           <Typography sx={{...sx.lightColor, ...sx.halfOpacity}}>
-            {genre.join(' & ')}
+            {genres.join(' & ')}
           </Typography>
         )}
         {rItem(<Box sx={sx.horizontal}>
-          {renderHighlight(datePublished.slice(0, 4))}
-          {renderHighlight(duration)}
+          {renderHighlight(release_date.slice(0, 4))}
+          {renderHighlight(`${String(runtime)} minutes`)}
         </Box>)}
-        {rItem(renderDescription(description))}
+        {rItem(renderDescription(overview))}
       </Unstable_Grid2>
     </Box>
   )

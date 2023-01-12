@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useState} from "react";
 import {ImgMaterial} from "../../Common";
 import {Box, Theme, Typography, useTheme} from "@mui/material";
 import {Popover} from "../../Common/Popover";
@@ -6,11 +6,13 @@ import {EditingButton} from "../../Common/EditingButton";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {DeleteMovieModal} from "../../../Views/DeleteMovieModal";
 import {AddEditMovieModal} from "../../../Views/AddMovieModal";
-import {SelectedMovieContext} from "../../../Contexts/selectedMovieContextProvider";
 import {IMovie} from "../../../consts/types/movie";
+import {useDispatch} from "react-redux";
+import {setSelectedMovie} from "../../../store/moviesSlice";
+
 interface IMovieItemProps {
   movie: IMovie;
-};
+}
 
 const getStyles = (theme: Theme) => ({
   container: {
@@ -40,7 +42,7 @@ const getStyles = (theme: Theme) => ({
     alignItems: 'center',
     justifyContent: 'space-between'
   }
-})
+});
 
 export const MovieItem: React.FC<IMovieItemProps> = ({movie}) => {
   const sx = getStyles(useTheme());
@@ -48,14 +50,14 @@ export const MovieItem: React.FC<IMovieItemProps> = ({movie}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const {setSelectedMovie} = useContext(SelectedMovieContext);
+  const dispatch = useDispatch();
 
-  const {image, name, genre, datePublished} = movie;
-  const year = datePublished.slice(0, 4);
+  const {poster_path, title, genres, release_date} = movie;
+  const year = release_date.slice(0, 4);
   const popoverButtons = [
     {label: 'Edit', onClick: () => setIsEditModalOpen(true)},
     {label: 'Delete', onClick: () => setIsDeleteModalOpen(true)}
-  ]
+  ];
   return (
     <>
       <Grid2
@@ -63,23 +65,25 @@ export const MovieItem: React.FC<IMovieItemProps> = ({movie}) => {
         xs={4}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={() => setSelectedMovie(movie)}
+        onClick={() => dispatch(setSelectedMovie(movie))}
       >
         {(isHovered || anchorEl) && (
           <EditingButton onClick={event => setAnchorEl(event.currentTarget)}/>
         )}
-        <ImgMaterial alt={name} src={image} sx={sx.image} />
+        <ImgMaterial alt={title} src={poster_path} sx={sx.image}/>
         <Box sx={sx.firstLine}>
-          <Typography sx={{...sx.lightColor, ...sx.regularFontWeight}} variant='h6'>{name}</Typography>
+          <Typography sx={{...sx.lightColor, ...sx.regularFontWeight}} variant="h6">{title}</Typography>
           <Box sx={sx.yearContainer}>
             <Typography sx={sx.lightColor}>{year}</Typography>
           </Box>
         </Box>
-        <Typography sx={{...sx.lightColor, ...sx.halfOpacity}}>{genre.join(', ')}</Typography>
+        <Typography sx={{...sx.lightColor, ...sx.halfOpacity}}>{genres.join(', ')}</Typography>
       </Grid2>
-      <Popover anchorEl={anchorEl} buttons={popoverButtons} setAnchorEl={setAnchorEl} />
-      {isEditModalOpen && <AddEditMovieModal setIsOpen={setIsEditModalOpen} isEdit />}
-      {isDeleteModalOpen && <DeleteMovieModal setIsOpen={setIsDeleteModalOpen} />}
-    </>
-  )
+      <Popover anchorEl={anchorEl} buttons={popoverButtons} setAnchorEl={setAnchorEl}/>
+      {isEditModalOpen && <AddEditMovieModal setIsOpen={setIsEditModalOpen} movie={movie}/>}
+      {isDeleteModalOpen && <DeleteMovieModal setIsOpen={setIsDeleteModalOpen} movieId={movie.id}/>
 }
+</>
+)
+  ;
+};
