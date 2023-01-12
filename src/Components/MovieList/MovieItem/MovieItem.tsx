@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {ImgMaterial} from "../../Common";
 import {Box, Theme, Typography, useTheme} from "@mui/material";
 import {Popover} from "../../Common/Popover";
-import {EditingButton} from "../../Common/EditingButton";
+import {EditingButton} from "../../Common/Buttons/EditingButton";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {DeleteMovieModal} from "../../../Views/DeleteMovieModal";
 import {AddEditMovieModal} from "../../../Views/AddMovieModal";
